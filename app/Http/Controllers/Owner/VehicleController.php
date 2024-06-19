@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VehicleRequest;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class VehicleController extends Controller
 {
@@ -14,7 +17,8 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        return view('owner.dashboard');
+        $vehicles = Vehicle::all();
+        return view('owner.dashboard')->with('vehicles', $vehicles);
     }
 
     /**
@@ -24,7 +28,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        //
+        return view('owner.create');
     }
 
     /**
@@ -33,9 +37,16 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VehicleRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        if (!$request->uuid) {
+            $validatedData['uuid'] = Str::uuid();
+        }
+        $vehicle = Vehicle::create($validatedData);
+
+        return redirect()->route('vehicle.index')
+            ->with('success', 'Vehicle created successfully.');
     }
 
     /**

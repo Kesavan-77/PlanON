@@ -23,7 +23,7 @@ Route::get('/dashboard', function () {
     $user = User::find(Auth::id());
     $userRole = $user->user_role;
     if($userRole=='owner'){
-        return view('owner.dashboard');
+        return to_route('vehicle.index');
     }
     elseif($userRole=='driver'){
         return view('driver.dashboard');

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->binary('vehicle_img');
             $table->string('vehicle_status');
             $table->string('person_count');
-            $table->string('vechile_charge');
+            $table->string('vehicle_charge'); // Corrected the typo here
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
