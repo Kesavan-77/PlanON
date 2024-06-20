@@ -71,10 +71,10 @@
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="/"
+                    <a href="{{route('registration.index')}}"
                         class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group active">
-                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Register</span>
+                        <i class="fa fa-th-large" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
                     </a>
                 </li>
                 <li>

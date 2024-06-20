@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class CheckOwnerAuth
 {
@@ -17,10 +16,10 @@ class CheckOwnerAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Gate::denies('owner-auth')) {
-            abort(403, 'Unauthorized action.');
+        if (!auth()->check() || auth()->user()->role !== 'owner') {
+            abort(403, 'Unauthorized.');
         }
-
+    
         return $next($request);
     }
 }

@@ -13,19 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vehicles', function (Blueprint $table) {
+        Schema::create('driver_registrations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->uuid('uuid');
-            $table->string('vehicle_no');
-            $table->string('vehicle_type');
-            $table->string('vehicle_img');
-            $table->string('vehicle_status');
-            $table->string('person_count');
-            $table->string('vehicle_charge'); 
-            $table->timestamps();
+            $table->string('driver_name');
+            $table->string('driver_ph_number');
+            $table->integer('driver_experience'); 
+            $table->integer('driver_charge');
+            $table->string('driver_gender'); 
+            $table->integer('driver_age');
+            $table->string('driver_license');
+            $table->json('vehicle_type');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
+        
     }
 
     /**
@@ -35,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vehicles');
+        Schema::dropIfExists('driver_registrations');
     }
 };

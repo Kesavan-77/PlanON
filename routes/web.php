@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
         return to_route('vehicle.index');
     }
     elseif($userRole=='driver'){
-        return view('driver.dashboard');
+        return to_route('registration.index');
     }
     elseif($userRole=='customer'){
         return view('customer.dashboard');
@@ -37,3 +37,5 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 require __DIR__.'/paths/owner.php';
+
+require __DIR__.'/paths/driver.php';
