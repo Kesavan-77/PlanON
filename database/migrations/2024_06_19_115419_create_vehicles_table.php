@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('vehicle_no');
             $table->string('vehicle_type');
-            $table->binary('vehicle_img');
+            $table->string('vehicle_img');
             $table->string('vehicle_status');
             $table->string('person_count');
             $table->string('vehicle_charge'); // Corrected the typo here

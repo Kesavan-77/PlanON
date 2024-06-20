@@ -43,7 +43,6 @@
                         </svg>
                     </button>
                     <a href="/" class="flex ms-2 md:me-24">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="PlanON Logo" />
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">PlanON</span>
                     </a>
@@ -88,23 +87,19 @@
                 <li>
                     <a href="/"
                         class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
-                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Edit Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/"
+                    <form action="{{ route('logout') }}" method="post"
                         class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        @csrf
+                        <button type="submit">
                         <i class="fa fa-sign-out" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </a>
+                    </button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -127,4 +122,5 @@
         });
     });
 </script>
+
 </html>

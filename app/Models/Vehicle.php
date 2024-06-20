@@ -19,4 +19,9 @@ class Vehicle extends Model
         'person_count',
         'vehicle_charge',
     ];
+
+    public function getRouteKeyName()
+    {
+      return 'uuid';   
+    }
 }

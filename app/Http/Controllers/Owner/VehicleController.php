@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleRequest;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class VehicleController extends Controller
@@ -17,7 +19,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::where('user_id', Auth::id())->latest('updated_at')->get();
         return view('owner.dashboard')->with('vehicles', $vehicles);
     }
 
@@ -40,10 +42,20 @@ class VehicleController extends Controller
     public function store(VehicleRequest $request)
     {
         $validatedData = $request->validated();
+
         if (!$request->uuid) {
             $validatedData['uuid'] = Str::uuid();
         }
-        $vehicle = Vehicle::create($validatedData);
+
+        $file = $request->file('vehicle_img');
+
+        $destination = "storage";
+
+        $file->move($destination, $file->getClientOriginalName());
+
+        $validatedData['vehicle_img'] = $file->getClientOriginalName();
+
+        Vehicle::create($validatedData);
 
         return redirect()->route('vehicle.index')
             ->with('success', 'Vehicle created successfully.');
@@ -55,9 +67,9 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Vehicle $vehicle)
     {
-        //
+        return view('owner.show', ['vehicle' => $vehicle]);
     }
 
     /**
@@ -66,9 +78,9 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Vehicle $vehicle)
     {
-        //
+        return view('owner.edit', ['vehicle' => $vehicle]);
     }
 
     /**
@@ -78,9 +90,25 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Vehicle $vehicle)
     {
-        //
+        $validatedData = $request->validate([
+            'vehicle_no' => 'required|string|max:255|',
+            'vehicle_type' => 'required|string|max:100',
+            'vehicle_status' => 'required|string|in:Active,Inactive',
+            'person_count' => 'required|integer|min:1|max:50',
+            'vehicle_charge' => 'required|numeric|min:0',
+        ]);
+
+        $vehicle->update([
+            'vehicle_no' => $validatedData['vehicle_no'],
+            'vehicle_type' => $validatedData['vehicle_type'],
+            'vehicle_status' => $validatedData['vehicle_status'],
+            'person_count' => $validatedData['person_count'],
+            'vehicle_charge' => $validatedData['vehicle_charge'],
+        ]);
+
+        return to_route('vehicle.show', $vehicle)->with('success', "Details updated Successfully");
     }
 
     /**
@@ -89,8 +117,11 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Vehicle $vehicle)
     {
-        //
+        $vehicle->delete();
+
+        return to_route('vehicle.index', $vehicle)->with('success', "Vehicle deleted Successfully");
+
     }
 }

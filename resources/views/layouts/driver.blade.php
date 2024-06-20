@@ -16,16 +16,15 @@
 </head>
 <style>
     .active {
-        background-color: #4A5568;
+        background-color: #c9b114;
         color: #fff;
     }
 
-    .active:hover{
-        background-color: #4A5568;
+    .active:hover {
+        background-color: #a08d10;
         color: #fff;
     }
 </style>
-
 
 <body class="font-sans antialiased dark:bg-gray-900" x-data="{ sidebarOpen: false }">
 
@@ -43,8 +42,7 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="#" class="flex ms-2 md:me-24">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="PlanON Logo" />
+                    <a href="/" class="flex ms-2 md:me-24">
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">PlanON</span>
                     </a>
@@ -73,43 +71,40 @@
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 active group">
-                        <i class="fa fa-car" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">All Vechiles</span>
-                         </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="/"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group active">
                         <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">All drivers</span>
-                         </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Edit Profile</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Register</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="fa fa-bell" aria-hidden="true"></i>                        
+                    <a href="/"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ">
+                        <i class="fa fa-car" aria-hidden="true"></i>
+                        <span class="flex-1 ms-3 whitespace-nowrap">All Vehicle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <form action="{{ route('logout') }}" method="post"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        @csrf
+                        <button type="submit">
                         <i class="fa fa-sign-out" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </a>
+                    </button>
+                    </form>
                 </li>
             </ul>
         </div>
     </aside>
+
 
     <div class="p-4 sm:ml-64 mt-5">
         {{ $slot }}
@@ -117,10 +112,10 @@
 
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('aside ul li a');
         navLinks.forEach(link => {
-            link.addEventListener('click', function () {
+            link.addEventListener('click', function() {
                 navLinks.forEach(item => item.classList.remove('active'));
                 this.classList.add('active');
             });
