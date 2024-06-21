@@ -16,7 +16,7 @@ class CheckDriverAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 'driver') {
+        if (!auth()->check() || auth()->user()->user_role !== 'driver') {
             abort(403, 'Unauthorized.');
         }
     

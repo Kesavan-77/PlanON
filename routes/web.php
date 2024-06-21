@@ -39,3 +39,5 @@ require __DIR__.'/auth.php';
 require __DIR__.'/paths/owner.php';
 
 require __DIR__.'/paths/driver.php';
+
+require __DIR__.'/paths/customer.php';

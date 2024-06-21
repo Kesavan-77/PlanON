@@ -1,9 +1,6 @@
-<x-owner-layout>
+<x-driver-layout>
     <div class="min-h-screen flex flex-col justify-center py-10 px-6">
         <div class="bg-white rounded-lg shadow-xl overflow-hidden mx-auto max-w-5xl p-6 border border-gray-300">
-            <x-alert-success>
-                {{ session('success') }}
-            </x-alert-success>
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="flex-shrink-0 md:w-1/2">
                     <img src="{{ asset('/storage/vehicle/' . $vehicle->vehicle_img) }}" alt="Vehicle Image"
@@ -34,28 +31,18 @@
                     </div>
 
                     <div class="mt-6">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Vehicle Details</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            <!-- Add real details here if available -->
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.
-                        </p>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Owner Details</h3>
+                        <div class="space-y-4">
+                                <p class="text-lg text-gray-700"><span class="font-semibold">Owner Name:</span>
+                                    {{ $vehicle->user->name }}
+                                </p>
+                                <p class="text-lg text-gray-700"><span class="font-semibold">Owner Email:</span>
+                                    {{ $vehicle->user->email }}
+                                </p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="mt-6 flex justify-between bg-gray-50 p-4 rounded-lg shadow-inner">
-                <a href="{{ route('vehicle.edit', $vehicle) }}" class="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 rounded-lg text-sm px-5 py-2.5 transition-colors">
-                    Edit Vehicle
-                </a>
-                <form action="{{ route('vehicle.destroy', $vehicle) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-5 py-2.5 transition-colors"
-                        onclick="return confirm('Are you sure you want to delete this vehicle?')">
-                        Delete Vehicle
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
-</x-owner-layout>
+</x-driver-layout>

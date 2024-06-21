@@ -49,7 +49,7 @@ class VehicleController extends Controller
 
         $file = $request->file('vehicle_img');
 
-        $destination = "storage";
+        $destination = "storage/vehicle";
 
         $file->move($destination, $file->getClientOriginalName());
 
@@ -97,16 +97,24 @@ class VehicleController extends Controller
             'vehicle_type' => 'required|string|max:100',
             'vehicle_status' => 'required|string|in:Active,Inactive',
             'person_count' => 'required|integer|min:1|max:50',
+            'vehicle_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'vehicle_charge' => 'required|numeric|min:0',
         ]);
-
+        
         $vehicle->update([
             'vehicle_no' => $validatedData['vehicle_no'],
             'vehicle_type' => $validatedData['vehicle_type'],
             'vehicle_status' => $validatedData['vehicle_status'],
             'person_count' => $validatedData['person_count'],
+            'vehicle_img' => $validatedData['vehicle_img']->getClientOriginalName(),
             'vehicle_charge' => $validatedData['vehicle_charge'],
         ]);
+
+        $file = $request->file('vehicle_img');
+
+        $destination = "storage/vehicle";
+
+        $file->move($destination, $file->getClientOriginalName());
 
         return to_route('vehicle.show', $vehicle)->with('success', "Details updated Successfully");
     }

@@ -22,6 +22,10 @@ class Vehicle extends Model
 
     public function getRouteKeyName()
     {
-      return 'uuid';   
+      return 'uuid';
     }
+
+    public function user(){
+      return $this->belongsTo(User::class,'user_id');
+  }
 }

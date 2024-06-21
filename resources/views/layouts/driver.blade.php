@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="//unpkg.com/alpinejs" defer></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -33,7 +33,8 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
                     <button @click="sidebarOpen = !sidebarOpen" aria-controls="logo-sidebar" type="button"
-                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                        aria-expanded="false" aria-label="Toggle sidebar">
                         <span class="sr-only">Open sidebar</span>
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +43,7 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="/" class="flex ms-2 md:me-24">
+                    <a href="#" class="flex ms-2 md:me-24">
                         <span
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">PlanON</span>
                     </a>
@@ -51,10 +52,10 @@
                     <div class="flex items-center ms-3">
                         <button type="button"
                             class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                            aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                            aria-expanded="false" aria-label="User menu" data-dropdown-toggle="dropdown-user">
                             <span class="sr-only">Open user menu</span>
                             <img class="w-8 h-8 rounded-full"
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User photo">
                         </button>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                             id="dropdown-user">
@@ -66,20 +67,20 @@
         </div>
     </nav>
 
-    <aside x-bind:class="{ '-translate-x-full': !sidebarOpen }" id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700">
+    <aside id="logo-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{route('registration.index')}}"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group active">
+                    <a href="{{ route('registration.index') }}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('registration.index') ? 'active' : '' }}">
                         <i class="fa fa-th-large" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ">
+                    <a href="{{ route('allVehicles') }}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allVehicles') ? 'active' : '' }}">
                         <i class="fa fa-car" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">All Vehicle</span>
                     </a>
@@ -93,12 +94,12 @@
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="post"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         @csrf
-                        <button type="submit">
-                        <i class="fa fa-sign-out" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </button>
+                        <button type="submit" class="{{ request()->is('/') ? 'active' : '' }}">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
+                        </button>
                     </form>
                 </li>
             </ul>
@@ -114,13 +115,33 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('aside ul li a');
+        const currentPath = window.location.pathname;
+
+        // Restore active link from local storage
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 navLinks.forEach(item => item.classList.remove('active'));
                 this.classList.add('active');
+                localStorage.setItem('activeLink', this.getAttribute('href'));
             });
         });
+
+        // Retain the active class on page load
+        const activeLink = localStorage.getItem('activeLink');
+        if (activeLink) {
+            const activeElement = document.querySelector(`a[href="${activeLink}"]`);
+            if (activeElement) {
+                activeElement.classList.add('active');
+            }
+        }
     });
 </script>
+
 
 </html>

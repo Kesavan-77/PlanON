@@ -72,14 +72,14 @@
             <ul class="space-y-2 font-medium">
                 <li>
                     <a href="{{ route('vehicle.index') }}"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group active">
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('vehicle.index') ? 'active' : '' }}">
                         <i class="fa fa-car" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">All Vehicle</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="{{route('allDrivers')}}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allDrivers') ? 'active' : '' }}">
                         <i class="fa fa-id-card-o" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">All drivers</span>
                     </a>

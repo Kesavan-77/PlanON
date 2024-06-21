@@ -5,7 +5,7 @@ namespace App\Http\Controllers\driver;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverRegistrationRequest;
 use Illuminate\Http\Request;
-use App\Models\DriverRegistration;
+use App\Models\Driver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -18,11 +18,7 @@ class DriverRegistrationController extends Controller
      */
     public function index()
     {
-        $userRegistration = DriverRegistration::where('user_id', Auth::id())->first(); // Use first() instead of get()
-
-        if (!$userRegistration) {
-            abort(404);
-        }
+        $userRegistration = Driver::where('user_id', Auth::id())->first();
 
         return view('driver.dashboard')->with('driver', $userRegistration);
     }
@@ -59,10 +55,10 @@ class DriverRegistrationController extends Controller
 
         $validatedData['driver_license'] = $file->getClientOriginalName();
 
-        DriverRegistration::create($validatedData);
+        Driver::create($validatedData);
 
         return redirect()->route('registration.index')
-            ->with('success', 'Driver registered successfully successfully.');
+            ->with('success', 'Driver registered successfully.');
     }
 
     /**
@@ -84,7 +80,8 @@ class DriverRegistrationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $driver = Driver::findOrFail($id);
+        return view('driver.edit', compact('driver'));
     }
 
     /**
@@ -94,9 +91,31 @@ class DriverRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DriverRegistrationRequest $request, $id)
     {
-        //
+
+        $driver = Driver::find($id);
+
+        $validatedData = $request->validated();
+
+        $driver->update([
+            'driver_name' => $validatedData['driver_name'],
+            'driver_ph_number' => $validatedData['driver_ph_number'],
+            'driver_experience' => $validatedData['driver_experience'],
+            'driver_charge' => $validatedData['driver_charge'],
+            'driver_age' => $validatedData['driver_age'],
+            'driver_gender' => $validatedData['driver_gender'],
+            'driver_license' => $validatedData['driver_license']->getClientOriginalName(),
+            'vehicle_type' => $validatedData['vehicle_type'],
+        ]);
+
+        $file = $request->file('driver_license');
+
+        $destination = "storage/driver";
+
+        $file->move($destination, $file->getClientOriginalName());
+
+        return redirect()->route('registration.index', $driver->id)->with('success', 'profile updated successfully');
     }
 
     /**
@@ -107,6 +126,8 @@ class DriverRegistrationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $driver = Driver::find($id);
+        $driver->delete();
+        return redirect()->route('registration.index', $driver->id)->with('success', 'profile deleted successfully');
     }
 }

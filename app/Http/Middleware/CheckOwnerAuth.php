@@ -16,7 +16,7 @@ class CheckOwnerAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 'owner') {
+        if (!auth()->check() || auth()->user()->user_role !== 'owner') {
             abort(403, 'Unauthorized.');
         }
     

@@ -27,7 +27,8 @@
                     <label for="vehicle_type" class="block text-gray-700">Vehicle Type</label>
                     <select id="vehicle_type" name="vehicle_type"
                         class="form-select w-full mt-1 @error('vehicle_type') border-red-500 @enderror">
-                        <option value="" disabled {{ $vehicle->vehicle_type == '' ? 'selected' : '' }}>Select Vehicle
+                        <option value="" disabled {{ $vehicle->vehicle_type == '' ? 'selected' : '' }}>Select
+                            Vehicle
                             Type</option>
                         <option value="Two Wheeler" {{ $vehicle->vehicle_type == 'Two Wheeler' ? 'selected' : '' }}>Two
                             Wheeler</option>
@@ -47,15 +48,13 @@
                 <!-- Vehicle Image -->
                 <div>
                     <label for="vehicle_img" class="block text-gray-700">Vehicle Image</label>
-                    <input type="file" id="vehicle_img" name="vehicle_img" class="form-input w-full mt-1 @error('vehicle_img') border-red-500 @enderror">
-                
-                    <!-- Display existing image if available -->
-                    @if(old('vehicle_img') || isset($vehicle->vehicle_img))
-                        <div class="mt-2">
-                            <img id="preview" src="{{ old('vehicle_img') ? old('vehicle_img') : asset('/storage/' . $vehicle->vehicle_img) }}" alt="Vehicle Image" class="w-32 h-32 object-cover">
-                        </div>
+                    <input type="file" id="vehicle_img" name="vehicle_img"
+                        class="form-input w-full mt-1 @error('vehicle_img') border-red-500 @enderror">
+
+                    @if ($vehicle->vehicle_img)
+                        <p class="text-green-600 mt-1">Existing image: {{ basename($vehicle->vehicle_img) }}</p>
                     @endif
-                
+
                     @error('vehicle_img')
                         <p class="text-red-600 mt-1">{{ $message }}</p>
                     @enderror
@@ -70,7 +69,8 @@
                             Vehicle Status</option>
                         <option value="Active" {{ $vehicle->vehicle_status == 'Active' ? 'selected' : '' }}>Active
                         </option>
-                        <option value="Inactive" {{ $vehicle->vehicle_status == 'Inactive' ? 'selected' : '' }}>Inactive
+                        <option value="Inactive" {{ $vehicle->vehicle_status == 'Inactive' ? 'selected' : '' }}>
+                            Inactive
                         </option>
                     </select>
                     @error('vehicle_status')
