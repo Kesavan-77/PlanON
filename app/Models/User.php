@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Notifications\RegistrationSuccessNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,5 +48,16 @@ class User extends Authenticatable
 
     public function vehicles(){
         return $this->hasMany(Vehicle::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            if ($user) {
+                $user->notify(new RegistrationSuccessNotification($user));
+            }
+        });
     }
 }
