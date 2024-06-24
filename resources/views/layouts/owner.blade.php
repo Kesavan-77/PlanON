@@ -85,8 +85,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                    <a href="{{route('owner.notifications')}}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('owner.notifications') ? 'active' : '' }}">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>

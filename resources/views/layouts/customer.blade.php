@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -71,29 +71,22 @@
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('vehicle.index') ? 'active' : '' }}">
-                        <i class="fa fa-superpowers" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Plan a trip</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('vehicle.index') ? 'active' : '' }}">
+                    <a href="{{ route('allVehicles') }}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allVehicles') ? 'active' : '' }}">
                         <i class="fa fa-car" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">All Vehicle</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allDrivers') ? 'active' : '' }}">
+                    <a href="{{route('trip.plans')}}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('trip.plans') ? 'active' : '' }}">
                         <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                        <span class="flex-1 ms-3 whitespace-nowrap">All drivers</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Your trip plans</span>
                     </a>
                 </li>
                 <li>
                     <a href="#"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allDrivers') ? 'active' : '' }}">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>
@@ -119,14 +112,66 @@
 
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('aside ul li a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(item => item.classList.remove('active'));
-                this.classList.add('active');
-            });
+    $(document).ready(function() {
+        // Select navigation links and add click event
+        const $navLinks = $('aside ul li a');
+        $navLinks.on('click', function() {
+            $navLinks.removeClass('active');
+            $(this).addClass('active');
         });
+
+        // Function to add a new 'To Location' field
+        function addToLocationField() {
+            const $container = $('#to-location-container');
+
+            // Create a new field
+            const $newField = $('<div>', {
+                class: 'flex items-center space-x-2 mt-2'
+            });
+
+            // Input field
+            const $inputField = $('<input>', {
+                type: 'text',
+                name: 'to-location[]',
+                placeholder: 'Enter destination',
+                class: 'form-input w-full mt-1'
+            });
+
+            // Delete button
+            const $deleteButton = $('<button>', {
+                type: 'button',
+                class: 'p-1 bg-red-500 hover:bg-red-700 text-white rounded-full flex items-center justify-center w-8 h-8 delete-button',
+                html: '<i class="fa fa-trash-o" aria-hidden="true"></i>'
+            }).on('click', function() {
+                $newField.remove();
+            });
+
+            // Append elements to the new field
+            $newField.append($inputField);
+
+            // Add delete button only if there are already existing fields
+            if ($container.children().length > 0) {
+                $newField.append($deleteButton);
+            }
+
+            // Append the new field to the container
+            $container.append($newField);
+        }
+
+        // Event listener for adding new 'To Location' field
+        $('#add-location').on('click', addToLocationField);
+
+        // Initialize with the first field (if not already added by old data)
+        if ($('#to-location-container').children().length === 0) {
+            addToLocationField();
+        }
+
+        // Set min date for From Date and To Date
+        const today = new Date();
+        const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
+        const minDateString = minDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        $('#from-date').attr('min', minDateString);
+        $('#to-date').attr('min', minDateString);
     });
 </script>
 

@@ -16,6 +16,10 @@ class CheckCustomerAuth
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!auth()->check() || auth()->user()->user_role !== 'customer') {
+            abort(403, 'Unauthorized.');
+        }
+    
         return $next($request);
     }
 }

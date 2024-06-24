@@ -29,7 +29,7 @@ Route::get('/dashboard', function () {
         return to_route('registration.index');
     }
     elseif($userRole=='customer'){
-        return view('customer.dashboard');
+        return to_route('allVehicles');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
