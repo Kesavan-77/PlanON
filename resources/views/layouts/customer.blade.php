@@ -99,15 +99,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allDrivers') ? 'active' : '' }}">
+                    <a href="{{route('customer.notifications')}}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('customer.notifications') ? 'active' : '' }}">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="post"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('/logout') ? 'active' : '' }}">
                         @csrf
                         <button type="submit">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>

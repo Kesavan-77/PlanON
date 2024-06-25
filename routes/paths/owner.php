@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\owner\ActionController;
+use App\Http\Controllers\Owner\ActionController;
 use App\Http\Controllers\Owner\AllDriverListController;
 use App\Http\Controllers\Owner\NotificationController;
 use App\Http\Controllers\Owner\VehicleController;

@@ -40,7 +40,7 @@
                                     years</span>
                             </p>
                             <p class="text-sm text-gray-600 mt-2">Charge:
-                                <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded-full">${{ number_format($driver->driver_charge) }}/km</span>
+                                <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded-full">${{ number_format($driver->driver_charge) }}/day</span>
                             </p>
                             <p class="text-sm text-gray-600 mt-2">Age:
                                 <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">{{ $driver->driver_age }}

@@ -72,13 +72,13 @@
 
                 <!-- Vehicle Selection -->
                 <div>
-                    <input type="hidden" id="vehicle_no" name="vehicle_no" value="{{ $vehicle[0]->vehicle_no }}"
+                    <input type="hidden" id="vehicle_no" name="vehicle_no" value="{{ $vehicle->vehicle_no }}"
                         class="form-input w-full mt-1 @error('vehicle_no') border-red-500 @enderror">
                 </div>
 
                 <!-- Vehicle_id selection -->
                 <div>
-                    <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ $vehicle[0]->id }}"
+                    <input type="hidden" id="vehicle_id" name="vehicle_id" value="{{ $vehicle->id }}"
                         class="form-input w-full mt-1 @error('vehicle_no') border-red-500 @enderror">
                 </div>
 

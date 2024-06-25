@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,6 +15,7 @@ class UserFollowNotification extends Notification
     public $userName;
     public $message;
     public $userId;
+    public $user;
 
     /**
      * Create a new notification instance.
@@ -25,6 +27,8 @@ class UserFollowNotification extends Notification
         $this->userId = $userId;
         $this->userName = $userName;
         $this->message = $message;
+        $this->user = User::find($this->userId);
+
     }
 
     /**
@@ -35,8 +39,21 @@ class UserFollowNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail','database'];
     }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->view('mails.user-notification-template', ['user' => $this->user]);
+    }
+
    /**
      * Get the array representation of the notification.
      *

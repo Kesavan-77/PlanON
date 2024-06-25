@@ -22,7 +22,7 @@
                             {{ $driver->driver_experience }} years</p>
                     </div>
                     <div>
-                        <p class="text-lg text-gray-700"><span class="font-semibold">Charge per km:</span>
+                        <p class="text-lg text-gray-700"><span class="font-semibold">Charge per day:</span>
                             ${{ $driver->driver_charge }}</p>
                     </div>
                     <div>

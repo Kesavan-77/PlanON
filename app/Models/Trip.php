@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Trip extends Model
 {
@@ -81,7 +82,7 @@ class Trip extends Model
             if ($user) {
                 $user->notify(new UserFollowNotification($userId, $userName, $message));
             } else {
-                \Log::warning('Vehicle not found for Trip ID: ' . $trip->id);
+                Log::warning('Vehicle not found for Trip ID: ' . $trip->id);
             }
         });
     }

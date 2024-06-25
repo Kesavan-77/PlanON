@@ -16,7 +16,7 @@ class AllVehicleListController extends Controller
     public function getAllVehicles()
     {
         // Fetch all vehicles with associated user information
-        $allVehicles = Vehicle::with('user')->get();
+        $allVehicles = Vehicle::with('user')->paginate(8);
 
         // Return view with vehicles data
         return view('customer.all-vehicle')->with('vehicles', $allVehicles);

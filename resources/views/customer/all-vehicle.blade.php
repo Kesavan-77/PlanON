@@ -7,7 +7,7 @@
         </x-alert-success>
 
         <!-- Vehicle Listing Container -->
-        <div class="flex gap-4 flex-wrap">
+        <div class="flex gap-5 mt-5 flex-wrap">
             @forelse ($vehicles as $vehicle)
                 <!-- Vehicle Card -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden w-80 p-5 border-2 border-black-500">
@@ -52,10 +52,15 @@
                             class="text-indigo-600 hover:text-indigo-800">View Details</a>
                     </div>
                 </div>
+
             @empty
                 <!-- Empty State -->
                 <p class="text-xl mt-5">No vehicles available</p>
             @endforelse
+        </div>
+        <br>
+        <div class="max-w-7xl">
+            {{ $vehicles->links() }}
         </div>
     </div>
 </x-customer-layout>

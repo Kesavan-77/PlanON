@@ -48,7 +48,7 @@
 
                 <!-- Driver Charge Input -->
                 <div>
-                    <label for="driver_charge" class="block text-gray-700">Driver Charge (per km)</label>
+                    <label for="driver_charge" class="block text-gray-700">Driver Charge (per day)</label>
                     <input type="number" id="driver_charge" name="driver_charge"
                         class="form-input w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         value="{{ old('driver_charge') }}">

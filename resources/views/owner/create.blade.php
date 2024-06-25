@@ -68,7 +68,7 @@
 
                 <!-- Vehicle Charge -->
                 <div>
-                    <label for="vehicle_charge" class="block text-gray-700">Vehicle Charge</label>
+                    <label for="vehicle_charge" class="block text-gray-700">Vehicle Charge (per km)</label>
                     <input type="text" id="vehicle_charge" name="vehicle_charge" class="form-input w-full mt-1 @error('vehicle_charge') border-red-500 @enderror" value="{{old('vehicle_charge')}}">
                     @error('vehicle_charge')
                         <p class="text-red-600 mt-1">{{ $message }}</p>

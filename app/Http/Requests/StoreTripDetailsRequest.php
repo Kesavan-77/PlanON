@@ -31,7 +31,7 @@ class StoreTripDetailsRequest extends FormRequest
             'from-location' => 'required|string|max:255',
             'to-location.*' => 'required|string|max:255',
             'vehicle_no' => 'required|string|max:255',
-            'driver' => 'nullable|string|max:255', // Example nullable string
+            'driver' => 'nullable|string|max:255',
             'proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'trip-description' => 'required|string|max:1000',
         ];

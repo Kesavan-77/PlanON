@@ -38,7 +38,7 @@
                     <div class="bg-blue-50 p-4 rounded-lg mb-4">
                         <p class="text-lg font-medium text-gray-800">Vehicle Charge:</p>
                         <p class="text-xl font-bold text-blue-600">${{ number_format($vehicle->vehicle_charge, 2) }}/
-                            per day</p>
+                            per km</p>
                     </div>
 
                     <!-- Owner Details -->

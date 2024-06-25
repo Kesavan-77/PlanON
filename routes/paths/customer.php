@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\customer\AllVehicleListController;
 use App\Http\Controllers\customer\TripDetailsController;
+use App\Http\Controllers\customer\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('customer')->middleware(['auth', 'check.customer.auth'])->group(function () {
@@ -19,4 +20,7 @@ Route::prefix('customer')->middleware(['auth', 'check.customer.auth'])->group(fu
 
     // Route to fetch customer's trip plans
     Route::get('/customer-trip-plans', [TripDetailsController::class, 'yourTripPlans'])->name('trip.plans');
+
+    // Route to fetch notifications for the customer
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('customer.notifications');
 });
