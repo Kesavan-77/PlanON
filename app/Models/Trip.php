@@ -43,6 +43,7 @@ class Trip extends Model
             $userName = Auth::user()->name;
             $message = [
                 'trip_id' => $trip['id'],
+                'proof_image'=> $trip['proof_image'],
                 'from_location' => $trip['from_location'],
                 'to_locations' => $trip['to_locations'],
                 'from_date' => $trip['from_date'],

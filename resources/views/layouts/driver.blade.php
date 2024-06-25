@@ -79,15 +79,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('allVehicles') }}"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('allVehicles') ? 'active' : '' }}">
+                    <a href="{{ route('driver.allVehicles') }}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('driver.allVehicles') ? 'active' : '' }}">
                         <i class="fa fa-car" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">All Vehicle</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/"
-                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->is('/') ? 'active' : '' }}">
+                    <a href="{{route('driver.notifications')}}"
+                        class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('driver.notifications') ? 'active' : '' }}">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <span class="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                     </a>
@@ -112,36 +112,6 @@
     </div>
 
 </body>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('aside ul li a');
-        const currentPath = window.location.pathname;
-
-        // Restore active link from local storage
-        navLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                link.classList.add('active');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(item => item.classList.remove('active'));
-                this.classList.add('active');
-                localStorage.setItem('activeLink', this.getAttribute('href'));
-            });
-        });
-
-        // Retain the active class on page load
-        const activeLink = localStorage.getItem('activeLink');
-        if (activeLink) {
-            const activeElement = document.querySelector(`a[href="${activeLink}"]`);
-            if (activeElement) {
-                activeElement.classList.add('active');
-            }
-        }
-    });
-</script>
 
 
 </html>

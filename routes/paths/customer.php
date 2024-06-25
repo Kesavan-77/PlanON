@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\customer\AllVehicleListController;
 use App\Http\Controllers\customer\TripDetailsController;
+use App\Http\Controllers\ProofController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('customer')->middleware(['auth', 'check.customer.auth'])->group(function () {

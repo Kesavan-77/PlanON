@@ -4,7 +4,7 @@
             @foreach ($drivers as $driver)
                 <div
                     class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out border border-gray-300">
-                    <div class="p-6">
+                    <div class="p-6 flex flex-col justify-between">
                         <div class="flex items-center mb-4">
                             <div class="flex-1">
                                 <h2 class="text-xl font-bold text-gray-800">{{ $driver->driver_name }}</h2>
@@ -60,8 +60,13 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="text-right">
-                            <a href="/" class="text-indigo-600 hover:text-indigo-800 underline">View Details</a>
+                        <div>
+                            <a href="/"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Book driver
+                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                </svg>
+                                </button></a>
                         </div>
                     </div>
                 </div>

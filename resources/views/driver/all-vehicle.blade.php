@@ -30,7 +30,7 @@
                         </p>
                     </div>
                     <div class="bg-gray-100 px-4 py-2 mt-auto">
-                        <a href="{{route('showVehicle',$vehicle)}}" class="text-indigo-600 hover:text-indigo-800">View Details</a>
+                        <a href="{{route('driver.showVehicle',$vehicle)}}" class="text-indigo-600 hover:text-indigo-800">View Details</a>
                     </div>
                 </div>
             @empty

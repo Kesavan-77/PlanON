@@ -11,4 +11,5 @@ class NotificationController extends Controller
         $notifications = auth()->user()->notifications;
         return view('owner.notifications')->with('notifications',$notifications);
     }
+
 }
