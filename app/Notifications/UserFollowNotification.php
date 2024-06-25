@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class UserFollowNotification extends Notification
 {
     use Queueable;
+    
     public $userName;
     public $message;
     public $userId;

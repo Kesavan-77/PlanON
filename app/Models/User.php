@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Notifications\RegistrationSuccessNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -46,16 +44,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function vehicles(){
+    /**
+     * Define the relationship between User and Vehicle.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vehicles()
+    {
         return $this->hasMany(Vehicle::class);
     }
 
+    /**
+     * Boot function to handle model events.
+     */
     protected static function boot()
     {
         parent::boot();
 
+        // Handle logic after a User is created
         static::created(function ($user) {
             if ($user) {
+                // Send registration success notification
                 $user->notify(new RegistrationSuccessNotification($user));
             }
         });

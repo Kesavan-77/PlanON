@@ -12,80 +12,77 @@ use Illuminate\Support\Str;
 class DriverRegistrationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the dashboard for the authenticated driver.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $userRegistration = Driver::where('user_id', Auth::id())->first();
+        // Retrieve the driver's registration details based on the authenticated user's ID
+        $driverRegistration = Driver::where('user_id', Auth::id())->first();
 
-        return view('driver.dashboard')->with('driver', $userRegistration);
+        // Return view with driver's dashboard and registration details
+        return view('driver.dashboard')->with('driver', $driverRegistration);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new driver resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
+        // Display the form for creating a new driver registration
         return view('driver.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created driver resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(DriverRegistrationRequest $request)
     {
+        // Validate the incoming request data using DriverRegistrationRequest
         $validatedData = $request->validated();
 
+        // Generate UUID if not provided
         if (!$request->uuid) {
             $validatedData['uuid'] = Str::uuid();
         }
 
+        // Handle driver license file upload
         $file = $request->file('driver_license');
-
         $destination = "storage/driver";
-
         $file->move($destination, $file->getClientOriginalName());
-
         $validatedData['driver_license'] = $file->getClientOriginalName();
 
+        // Create a new Driver record in the database
         Driver::create($validatedData);
 
+        // Redirect back to registration index with success message
         return redirect()->route('registration.index')
             ->with('success', 'Driver registered successfully.');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified driver resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
+        // Find the driver by ID for editing
         $driver = Driver::findOrFail($id);
+
+        // Return view with the driver data for editing
         return view('driver.edit', compact('driver'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified driver resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -93,11 +90,13 @@ class DriverRegistrationController extends Controller
      */
     public function update(DriverRegistrationRequest $request, $id)
     {
-
+        // Find the driver by ID
         $driver = Driver::find($id);
 
+        // Validate the incoming request data using DriverRegistrationRequest
         $validatedData = $request->validated();
 
+        // Update driver details in the database
         $driver->update([
             'driver_name' => $validatedData['driver_name'],
             'driver_ph_number' => $validatedData['driver_ph_number'],
@@ -109,25 +108,30 @@ class DriverRegistrationController extends Controller
             'vehicle_type' => $validatedData['vehicle_type'],
         ]);
 
+        // Handle driver license file upload
         $file = $request->file('driver_license');
-
         $destination = "storage/driver";
-
         $file->move($destination, $file->getClientOriginalName());
 
-        return redirect()->route('registration.index', $driver->id)->with('success', 'profile updated successfully');
+        // Redirect back to registration index with success message
+        return redirect()->route('registration.index', $driver->id)
+            ->with('success', 'Profile updated successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified driver resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
+        // Find the driver by ID and delete it
         $driver = Driver::find($id);
         $driver->delete();
-        return redirect()->route('registration.index', $driver->id)->with('success', 'profile deleted successfully');
+
+        // Redirect back to registration index with success message
+        return redirect()->route('registration.index', $driver->id)
+            ->with('success', 'Profile deleted successfully');
     }
 }

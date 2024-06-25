@@ -28,7 +28,7 @@
                         
                         <!-- Status -->
                         <p class="text-sm text-gray-600 mb-1"><strong>Status:</strong> 
-                            <span class="px-2 py-1 rounded-full text-white {{ $plan->status == 'Completed' ? 'bg-green-500' : ($plan->status == 'Pending' ? 'bg-yellow-500' : 'bg-red-500') }}">
+                            <span class="px-2 py-1 rounded-full text-white {{ $plan->status == 'approved' ? 'bg-green-500' : ($plan->status == 'rejected' ? 'bg-red-500' : 'bg-yellow-500') }}">
                                 {{ $plan->status ?? 'Pending' }}
                             </span>
                         </p>

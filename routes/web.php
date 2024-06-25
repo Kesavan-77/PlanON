@@ -9,35 +9,47 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| This file is where you may define the web routes for your application.
+| These routes are loaded by the RouteServiceProvider within a group
+| which contains the "web" middleware group. Now create something great!
 |
 */
 
+// Redirect root URL to the login page
 Route::get('/', function () {
     return redirect('login');
 });
 
+// Dashboard route for authenticated users
 Route::get('/dashboard', function () {
+
+    // Retrieve the authenticated user
     $user = User::find(Auth::id());
+    
+    // Determine the user's role
     $userRole = $user->user_role;
-    if($userRole=='owner'){
-        return to_route('vehicle.index');
+
+    // Redirect based on user role
+    if ($userRole == 'owner') {
+        return redirect()->route('vehicle.index'); 
     }
-    elseif($userRole=='driver'){
-        return to_route('registration.index');
+    
+    elseif ($userRole == 'driver') {
+        return redirect()->route('registration.index'); 
     }
-    elseif($userRole=='customer'){
-        return to_route('allVehicles');
+    elseif ($userRole == 'customer') {
+        return redirect()->route('allVehicles'); 
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Include authentication routes (login, register, reset password, etc.)
+require __DIR__ . '/auth.php';
 
-require __DIR__.'/auth.php';
+// Include routes specific to owner role
+require __DIR__ . '/paths/owner.php';
 
-require __DIR__.'/paths/owner.php';
+// Include routes specific to driver role
+require __DIR__ . '/paths/driver.php';
 
-require __DIR__.'/paths/driver.php';
-
-require __DIR__.'/paths/customer.php';
+// Include routes specific to customer role
+require __DIR__ . '/paths/customer.php';

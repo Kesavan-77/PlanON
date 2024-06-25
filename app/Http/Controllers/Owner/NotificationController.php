@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function index(){
+    /**
+     * Display notifications for the authenticated owner.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function index()
+    {
+        // Retrieve notifications for the authenticated owner
         $notifications = auth()->user()->notifications;
-        return view('owner.notifications')->with('notifications',$notifications);
-    }
 
+        // Return view with notifications data
+        return view('owner.notifications')->with('notifications', $notifications);
+    }
 }
